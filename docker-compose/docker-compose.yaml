@@ -1,0 +1,13 @@
+services:
+  web:
+    image: nginx
+    restart: always
+    container_name: www
+    ports:
+      - "8080:80"
+    volumes:
+      - ./html:/var/www/html
+      - ./logs:/var/log/nginx
+      - ./conf.d:/etc/nginx/conf.d
+    environment:
+      NGINX_ENTRYPOINT_QUIET_LOGS: 1

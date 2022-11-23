@@ -1,0 +1,11 @@
+version: '3.9'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    platform: wasi/wasm32
+    runtime: io.containerd.wasmedge.v1
+    ports:
+      - "80:80"

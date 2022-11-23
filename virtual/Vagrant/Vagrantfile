@@ -1,0 +1,39 @@
+Vagrant.configure("2") do |config|
+    # debian
+	config.vm.define "debian" do |vps|
+		vps.vm.box = "debian/bullseye64"
+		vps.vm.hostname = "debian"
+		vps.vm.network "private_network", ip: "172.14.15.22"
+		vps.vm.provider "virtualbox" do |virtualbox|
+			virtualbox.name = "debian"
+			virtualbox.memory = 2048
+			virtualbox.cpus = 2
+		end
+	end
+
+	# automatically installed and configured when the machine is created
+    config.vm.provision "file", source: "#{Dir.home}/.ssh/id_ed25519", destination: "/tmp/id_ed25519"
+    config.vm.provision "shell" do |shell|
+        ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_ed25519.pub").first.strip
+        shell.inline = <<-SHELL
+        # Create kukun user
+        useradd -s /bin/bash -d /home/kukun/ -m -G sudo kukun
+        echo 'kukun ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+        mkdir -p /home/kukun/.ssh
+        echo #{ssh_pub_key} >> /home/kukun/.ssh/authorized_keys
+
+        # User Kukun
+        cp /tmp/id_ed25519 /home/kukun/.ssh/id_ed25519
+        chown -R kukun:kukun /home/kukun/.ssh
+        chmod -R 0600 /home/kukun/.ssh/id_ed25519
+
+        # User Root
+        mkdir -p /root/.ssh
+        echo #{ssh_pub_key} >> /root/.ssh/authorized_keys
+        cp /tmp/id_ed25519 /root/.ssh/id_ed25519
+        chmod -R 0600 /root/.ssh/id_ed25519
+
+        rm -f /tmp/id_ed25519
+        SHELL
+    end
+end

@@ -1,0 +1,17 @@
+[package]
+name = "web-assembly"
+version = "0.1.0"
+edition = "2021"
+authors = ["Hai Nghia <hohainghia19@gmail.com>"]
+description = "Web  Assembly"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+yew = { version = "0.20.0", features = ["csr"] }
+web-sys = { version = "0.3.61", features = ["HtmlInputElement"] }
+strum = "0.24.1"
+strum_macros = "0.24.3"
+serde = "1.0.155"
+serde_derive = "1.0.155"
+gloo = "0.8.0"

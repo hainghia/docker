@@ -1,0 +1,40 @@
+version: '3.9'
+services:
+  level1:
+    build:
+      context: .
+      dockerfile: ./docker/Level1.Dockerfile
+    restart: always
+    ports:
+      - '7001:80'
+  level2:
+    build:
+      context: .
+      dockerfile: ./docker/Level2.Dockerfile
+    restart: always
+    ports:
+      - '7002:80'
+
+  level3:
+    build:
+      context: .
+      dockerfile: ./docker/Level3.Dockerfile
+    restart: always
+    ports:
+      - '7003:80'
+
+  level4:
+    build:
+      context: .
+      dockerfile: ./docker/Level4.Dockerfile
+    restart: always
+    ports:
+      - '7004:80'
+
+  level5:
+    build:
+      context: .
+      dockerfile: ./docker/Level5.Dockerfile
+    restart: always
+    ports:
+      - '7005:80'

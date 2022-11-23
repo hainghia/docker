@@ -1,0 +1,62 @@
+version: '3.9' # Cung cấp thông tin tính tương thích ngược nhưng đã lỗi thời
+services:
+  web:
+    build: .
+    depends_on:
+      - db
+      - redis
+    links:
+      - db
+      - redis
+    restart: unless-stopped
+    environment:
+      RACK_ENV: development
+      SHOW: "true"
+      USER_INPUT:
+    ports:
+      - target: 80 # the container port
+        host_ip: 0.0.0.0 # the Host IP mapping, unspecified means all network interfaces (0.0.0.0)
+        published: 8080 # the publicly exposed port.
+        protocol: tcp # the port protocol (tcp or udp), unspecified means any protocol
+        mode: host # host for publishing a host port on each node, or ingress for a port to be load balanced.
+    volumes:
+      - type: volume
+        source: db-data
+        target: /data
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost" ]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    command: echo "I'm running ${COMPOSE_PROJECT_NAME}"
+    networks:
+      - some-network
+
+  redis:
+    image: redis:latest
+    container_name: my-web-container
+    configs:
+      - source: redis_config
+        target: /redis_config
+        uid: "103"
+        gid: "103"
+        mode: 0440
+    networks:
+      - some-network
+
+  db:
+    image: postgres
+
+configs:
+  redis_config:
+    external: true
+
+volumes:
+  db-data:
+    driver: flocker
+    driver_opts:
+      size: "10GiB"
+
+networks:
+  some-network:
