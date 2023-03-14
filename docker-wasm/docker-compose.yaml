@@ -8,4 +8,4 @@ services:
     platform: wasi/wasm32
     runtime: io.containerd.wasmedge.v1
     ports:
-      - "80:80"
+      - "8081:80"
