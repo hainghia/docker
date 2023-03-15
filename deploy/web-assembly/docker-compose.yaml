@@ -19,7 +19,7 @@ services:
       - wasm
     depends_on:
       - wasm
-    command: --interval 1 users
+    command: --interval 1 wasm
     networks:
       - wasm
 
