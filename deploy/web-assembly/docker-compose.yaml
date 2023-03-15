@@ -1,6 +1,7 @@
 services:
   wasm:
     image: kukun/web-assembly:latest
+    container_name: wasm
     restart: always
     volumes:
       - ./nginx/log:/var/log/nginx
