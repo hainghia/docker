@@ -2,6 +2,11 @@
   name: (#4) Setup All hosts
   remote_user: ubuntu
   become: yes
+  vars_files:
+    - env.yaml
+  vars:
+    docker_username: user_name
+    docker_password: my_password
   tasks:
     - name: (#9) Update the apt package index and install packages to allow apt to use a repository over HTTPS
       apt:
@@ -11,7 +16,7 @@
           - curl
           - gnupg
           - lsb-release
-        state: latest
+        state: present
         update_cache: yes
 
     - name: (#46) Add Docker’s official GPG key
@@ -49,10 +54,35 @@
         state: present
         update_cache: yes
 
-
-    - name: (#27) Copy foder docker/aws/usr  Docker to EC2
+    - name: (#27) Copy foder haproxy to EC2
       copy:
         src: ../haproxy
         dest: /home/ubuntu
+        owner: ubuntu
+        group: ubuntu
         force: yes
-        mode: '0755'
+
+    - name: (#27) Copy foder users to EC2
+      copy:
+        src: ../users
+        dest: /home/ubuntu
+        owner: ubuntu
+        group: ubuntu
+        force: yes
+
+    - name: Login to Docker Registry
+      docker_login:
+        username: "{{ docker_username }}"
+        password: "{{ docker_password }}"
+
+    - name: (#34) Stop container, Remove images, volumes, clear system
+      shell: 'docker kill $(docker ps -aq); docker rm $(docker ps -aq); docker rmi $(docker images -aq); docker volume prune -f; docker system prune --all --force'
+
+    - name: create network haproxy_network
+      shell: 'docker network create haproxy_network'
+
+    - name: Run Service users
+      shell: 'docker compose -f /home/ubuntu/users/docker-compose.yaml up -d'
+
+    - name: Run Haproxy
+      shell: 'docker compose -f /home/ubuntu/haproxy/docker-compose.yaml up -d'
