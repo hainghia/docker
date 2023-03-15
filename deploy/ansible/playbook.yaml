@@ -70,6 +70,14 @@
         group: ubuntu
         force: yes
 
+    - name: (#27) Copy foder web-assembly to EC2
+      copy:
+        src: ../web-assembly
+        dest: /home/ubuntu
+        owner: ubuntu
+        group: ubuntu
+        force: yes
+
     - name: Login to Docker Registry
       docker_login:
         username: "{{ docker_username }}"
@@ -83,6 +91,9 @@
 
     - name: Run Service users
       shell: 'docker compose -f /home/ubuntu/users/docker-compose.yaml up -d'
+
+    - name: Run Web Assembly
+      shell: 'docker compose -f /home/ubuntu/web-assembly/docker-compose.yaml up -d'
 
     - name: Run Haproxy
       shell: 'docker compose -f /home/ubuntu/haproxy/docker-compose.yaml up -d'

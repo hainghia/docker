@@ -1,0 +1,31 @@
+services:
+  web-assembly:
+    image: kukun/web-assembly:latest
+    restart: always
+    volumes:
+      - ./nginx/log:/var/log/nginx
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    networks:
+      web-assembly:
+      haproxy_network:
+        aliases:
+          - web_assembly
+
+  watchtower-web-assembly:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    links:
+      - web-assembly
+    depends_on:
+      - web-assembly
+    command: --interval 1 users
+    networks:
+      - web-assembly
+
+networks:
+  web-assembly:
+    driver: bridge
+  haproxy_network:
+    external: true
+    name: haproxy_network
