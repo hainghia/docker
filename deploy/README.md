@@ -1,16 +1,23 @@
+## Git Repositories Other
+
+- [GitHub](https://github.com/rust-pro/web-server/tree/main/deploy)
+
 ### Ansible Commands
 
 ```shell
 ansible all --module-name ansible.builtin.ping --user ubuntu --inventory inventory.yaml
 ```
+
 ```shell
 ansible-playbook --inventory inventory.yaml playbook.yaml
 ```
 
 ### Check Version Ubuntu
+
 ```shell
 lsb_release -a
 ```
+
 ```
 No LSB modules are available.
 Distributor ID: Ubuntu
@@ -20,13 +27,17 @@ Codename:       jammy
 ```
 
 ## Commands
+
 ```shell
 docker inspect users > inspect.json; vim inspect.json;
 ```
+
 ```shell
 docker logs --details --follow --timestamps --tail 5 --since 2023-03-13T03:56:33.542039610Z --until 2024-01-01T23:59:59Z www
 ```
+
 # Deploy application system to AWS EC2 server
+
 [user.kukun.site](http://user.kukun.site/)
 
 ```shell
