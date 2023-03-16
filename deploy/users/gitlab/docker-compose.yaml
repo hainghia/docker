@@ -1,0 +1,62 @@
+services:
+  rust-users-gitlab:
+    image: kukun/rust-users-gitlab:latest
+    container_name: rust-users-gitlab
+    restart: always
+    depends_on:
+      - user-db
+    links:
+      - user-db
+    environment:
+      APP_URL: ${APP_URL} #0.0.0.0
+      APP_PORT: ${APP_PORT}
+      APP_NAME: ${APP_NAME}
+      APP_CLIENT: "http://localhost"
+      DB_CONNECTION: ${DB_CONNECTION}
+      DB_HOST: user-db
+      DB_PORT: ${DB_PORT}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
+      ACCESS_TOKEN_SECRET: ${ACCESS_TOKEN_SECRET}
+      REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET}
+      PASSWORD_SECRET_KEY: ${PASSWORD_SECRET_KEY}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      REFRESH_TOKEN_COOKIE_NAME: ${REFRESH_TOKEN_COOKIE_NAME}
+    networks:
+      rust-users-gitlab:
+      haproxy_network:
+        aliases:
+          - microservice_user_gitlab
+
+  user-db:
+    image: postgres:15.2-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    volumes:
+      - type: volume
+        source: db-data
+        target: /var/lib/postgresql/data
+        volume:
+          nocopy: true
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 1m
+      timeout: 5s
+      start_period: 10s
+      retries: 3
+    networks:
+      - rust-users-gitlab
+
+volumes:
+  db-data:
+
+networks:
+  rust-users-gitlab:
+    driver: bridge
+  haproxy_network:
+    external: true
+    name: haproxy_network

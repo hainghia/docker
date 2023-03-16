@@ -1,13 +1,12 @@
 - hosts: all
-  name: (#4) Setup All hosts
+  name: (#4) Install Docker Engine, containerd, and Docker Compose
   remote_user: ubuntu
   become: yes
-  vars_files:
-    - env.yaml
-  vars:
-    docker_username: user_name
-    docker_password: my_password
   tasks:
+    - name: =====> REQUIREMENTS FOR SUCCESSFUL PLAYBOOK EXECUTION <=====
+      debug:
+        msg: "Lưu ý trong folder cần copy file .env.example > .env và thay đổi giá trị tương ứng. Tương tự đối với env.exmaple.yaml > env.yaml"
+
     - name: (#9) Update the apt package index and install packages to allow apt to use a repository over HTTPS
       apt:
         name:
@@ -54,6 +53,16 @@
         state: present
         update_cache: yes
 
+- hosts: all
+  name: (#4) Deploy applications on Docker compose
+  remote_user: ubuntu
+  become: yes
+  vars_files:
+    - env.yaml
+  vars:
+    docker_username: user_name
+    docker_password: my_password
+  tasks:
     - name: (#27) Copy foder haproxy to EC2
       copy:
         src: ../haproxy
@@ -89,8 +98,11 @@
     - name: create network haproxy_network
       shell: 'docker network create haproxy_network'
 
-    - name: Run Service users
-      shell: 'docker compose -f /home/ubuntu/users/docker-compose.yaml up -d'
+    - name: Run Service users form GitHub Repository
+      shell: 'docker compose -f /home/ubuntu/users/github/docker-compose.yaml up -d'
+
+    - name: Run Service users form GitLab Repository
+      shell: 'docker compose -f /home/ubuntu/users/gitlab/docker-compose.yaml up -d'
 
     - name: Run Web Assembly
       shell: 'docker compose -f /home/ubuntu/web-assembly/docker-compose.yaml up -d'
