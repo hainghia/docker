@@ -19,14 +19,17 @@ deploy:
 		echo "Network haproxy_network already exists"; \
 	fi
 
-	docker compose -f deploy/users/docker-compose.yaml down
+	docker compose -f deploy/users/github/docker-compose.yaml down
+	docker compose -f deploy/users/gitlab/docker-compose.yaml down
 	docker compose -f deploy/web-assembly/docker-compose.yaml down
 	docker compose -f deploy/haproxy/docker-compose.yaml down
 
-	docker compose -f deploy/users/docker-compose.yaml build
+	docker compose -f deploy/users/github/docker-compose.yaml build
+	docker compose -f deploy/users/gitlab/docker-compose.yaml build
 	docker compose -f deploy/web-assembly/docker-compose.yaml build
 	docker compose -f deploy/haproxy/docker-compose.yaml build
 
-	docker compose -f deploy/users/docker-compose.yaml up -d
+	docker compose -f deploy/users/github/docker-compose.yaml up -d
+	docker compose -f deploy/users/gitlab/docker-compose.yaml up -d
 	docker compose -f deploy/web-assembly/docker-compose.yaml up -d
 	docker compose -f deploy/haproxy/docker-compose.yaml up -d
