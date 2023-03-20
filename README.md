@@ -20,12 +20,20 @@ git remote add bitbucket git@bitbucket.org:hainghia/docker.git
 git add .; git commit -asm "Initial commit";git push origin main; git push gitlab main; git push bitbucket main
 ```
 
-# Docker
+### Docker Clear
 
 ```shell
 docker kill $(docker ps -aq); docker rm $(docker ps -aq); docker rmi $(docker images -aq); docker volume prune -f; docker system prune --all --force
+```
 
-make multi-stage
+### [Docker Diagnostics check](https://docs.docker.com/desktop/troubleshoot/overview/#diagnose-from-the-terminal)
+
+```shell
+# Windows
+& "C:\Program Files\Docker\Docker\resources\com.docker.diagnose.exe" check
+
+# Linux
+/opt/docker-desktop/bin/com.docker.diagnose
 ```
 
 ## [Documentation Seminar Docker](https://docs.google.com/document/d/1S3dlG6Lqu7LYZDZDgxbzCSiBhCqc--0vT4pOYD5Ie84)
