@@ -1,1 +1,0 @@
-# [Documentation Seminar Docker](https://docs.google.com/document/d/1S3dlG6Lqu7LYZDZDgxbzCSiBhCqc--0vT4pOYD5Ie84)

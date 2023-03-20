@@ -1,7 +1,7 @@
-![logo](./logo.svg)
+<p style="display: flex; justify-content: center"><img src="./logo.svg" alt="Logo" width="400"></p>
 ___
 
-## [Docker CommandLine](https://docs.docker.com/engine/reference/commandline/cli/)
+`## [Docker CommandLine](https://docs.docker.com/engine/reference/commandline/cli/)`
 
 #### Download 1 image từ [Docker Hub](https://hub.docker.com/)
 
@@ -10,6 +10,7 @@ ___
 docker pull nginx:1.23.3
 docker pull michaelirwin244/wasm-example
 ```
+
 #### [Hiển thị danh sách Images](https://docs.docker.com/engine/reference/commandline/images/)
 
 ```shell
@@ -23,8 +24,10 @@ docker inspect nginx > inspect.json; code inspect.json; rm inspect.json
 ```
 
 #### [Tạo và chạy vùng chứa mới từ một hình ảnh](https://docs.docker.com/engine/reference/commandline/run/)
+
 *Lưu ý volume dùng để gắn kết các folder chứ không phải tập tin* <br>
 *[--mount sẽ có cú pháp dài dòng hơn --volume](https://docs.docker.com/storage/bind-mounts/)*
+
 ```shell
 docker run -d -p 8080:80 --name www -v D:\Source\docker\command\html:/var/www/html -v D:\Source\docker\command\logs:/var/log/nginx -v D:\Source\docker\command\conf.d:/etc/nginx/conf.d nginx
 
@@ -32,6 +35,7 @@ docker inspect www > inspect.json; code inspect.json; rm inspect.json #PortBindi
 ```
 
 [Danh sách Container](https://docs.docker.com/engine/reference/commandline/ps/)
+
 ```shell
 docker ps --all
 ```
@@ -55,7 +59,9 @@ docker cp ./html/post.html www:/var/www/html
 ```shell
 docker logs --details --follow --timestamps --tail 5 --since 2023-03-13T03:56:33.542039610Z --until 2024-01-01T23:59:59Z www
 ```
+
 ## Các lệnh khác
+
 ```shell
 docker login
 docker logout
@@ -67,6 +73,7 @@ docker kill
 docker rm
 docker rmi
 ```
+
 ## Clear Container, images, volume, config in Docker
 
 ```shell

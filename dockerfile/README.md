@@ -1,4 +1,4 @@
-![logo](dockerfile.svg?raw=true)
+<p style="display: flex; justify-content: center"><img src="./dockerfile.svg" alt="Logo" width="400"></p>
 ___
 
 ### Dockerfile dùng để xây dựng một Image

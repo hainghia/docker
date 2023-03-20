@@ -1,3 +1,10 @@
+.PHONY: docker-compose
+docker-compose:
+	docker compose -f docker-compose/docker-compose.yaml down
+	docker compose -f docker-compose/docker-compose.yaml build
+	docker compose -f docker-compose/docker-compose.yaml up -d
+
+
 .PHONY: multi-stage
 multi-stage:
 	docker compose -f multi-stage/docker-compose.yaml down
