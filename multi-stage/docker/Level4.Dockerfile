@@ -1,4 +1,4 @@
-FROM rust:1.67-slim-bookworm as rust
+FROM rust:1.68-slim-bookworm as rust
 
 FROM rust as builder
 

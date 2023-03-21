@@ -1,4 +1,4 @@
-FROM rust:1.67-slim-bookworm as builder
+FROM rust:1.68-slim-bookworm as builder
 
 ARG PROJECT_NAME="web"
 
