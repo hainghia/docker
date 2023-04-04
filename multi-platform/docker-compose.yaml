@@ -3,6 +3,39 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      platforms: linux/amd64,linux/arm64
     restart: always
     ports:
       - '6001:80'
+
+
+  rust-builder:
+    image: docker.io/docker/dockerfile:1.2.1-experimental
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    environment:
+      DOCKER_CLI_EXPERIMENTAL: "enabled"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    platforms:
+      - linux/amd64
+      - linux/arm64
+    stage: build
+    target: builder
+
+  rust-runner:
+    image: rust:1.68-slim-bookworm
+    command: cargo run
+    depends_on:
+      - rust-builder
+    environment:
+      RUST_LOG: debug
+    volumes:
+      - ./:/web/
+    working_dir: /web
+    platforms:
+      - linux/amd64
+      - linux/arm64
+    target: runner
