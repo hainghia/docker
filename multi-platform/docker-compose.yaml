@@ -1,0 +1,8 @@
+services:
+  multi-platform:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '6001:80'
