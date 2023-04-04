@@ -11,3 +11,6 @@ docker kill $(docker ps -aq); docker rm $(docker ps -aq); docker rmi $(docker im
 ```shell
  docker buildx ls
 ```
+```shell
+docker buildx build --platform linux/amd64,linux/arm64 -t kukun/multi-platform-multi-platform .
+```
