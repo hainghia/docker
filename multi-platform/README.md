@@ -7,6 +7,8 @@ silicon dựa trên ARM tùy chỉnh và AWS cung cấp tỷ lệ hiệu suất 
 người ta không còn mong đợi rằng tất cả phần mềm chỉ cần chạy trên bộ xử lý x86.
 https://www.docker.com/blog/faster-multi-platform-builds-dockerfile-cross-compilation-guide/
 
+
+https://github.com/docker/buildx/blob/master/docs/reference/buildx_create.md
 ```shell
 docker kill $(docker ps -aq); docker rm $(docker ps -aq); docker rmi $(docker images -aq); docker volume prune -f; docker system prune --all --force
 ```

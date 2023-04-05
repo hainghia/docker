@@ -3,12 +3,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      x-bake:
-        platforms:
-          - linux/amd64
-          - linux/arm64
+      platforms:
+        - linux/amd64
+        - linux/arm64
     restart: always
     ports:
-      - '6001:80'
-    platform:
-      linux/amd64
+      - "8080:80"
+    volumes:
+      - ./logs:/var/log/nginx
+    environment:
+      NGINX_ENTRYPOINT_QUIET_LOGS: 1
